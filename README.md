@@ -1,2 +1,2 @@
-# JobClient
+# JobClient [![Go Report Card](https://goreportcard.com/badge/github.com/ardbp/jbclient)](https://goreportcard.com/report/github.com/ardbp/jbclient)
 ## This project will provide gRPC client APIs for interecting with Job service.
