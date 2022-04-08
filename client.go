@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	// todo update it to read from envs 
+	// todo update it to read from envs
 	port = "12000"
 )
 
@@ -24,9 +24,10 @@ func main() {
 	conn, err := grpc.Dial(":" + port)
 	if err != nil {
 		grpclog.Error("failed to dial OAuth: ", err)
+		return
 	}
 	defer conn.Close()
-	
+
 	client := api.NewJobServiceClient(conn)
 	job, err := client.StartJob(ctx, &api.StartJobRequest{
 		Path:      "ls",
@@ -36,9 +37,15 @@ func main() {
 
 	if err != nil {
 		log.Println(err)
+		return
 	}
 
 	stream, err := client.StreamJobOutput(ctx, &api.IDRequest{JobId: job.Job.GetJobId()})
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
